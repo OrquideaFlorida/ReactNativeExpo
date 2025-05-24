@@ -1,12 +1,12 @@
 //
-import React  from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import AppList from './AppList';
 import AppForm from './AppForm';
 
-const {Navigator, Screen} = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 
 function AppTab() {
     return (
@@ -26,11 +26,19 @@ function AppTab() {
                         left: 0,
                         right: 0
                     },
-                    tabBarInconStyle: {display: "name"}
+                    tabBarInconStyle: { display: "name" }
                 }}
             >
-                <Screen name = "AppList" component={AppList} />
-                <Screen name = "AppForm" component={AppForm} />
+                <Screen name="AppList" component={AppList}
+                    options={{
+                        tabBarLabel: 'Compras'
+                    }}
+                />
+                <Screen name="AppForm" component={AppForm}
+                    options={{
+                        tabBarLabel: 'Compras'
+                    }}
+                />
             </Navigator>
         </NavigationContainer>
     );
