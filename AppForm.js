@@ -9,16 +9,17 @@ export default function AppForm({ navigation }) {
 
     function handleDescriptionChange(descricao) { setDescricao(descricao); }
     function handleQuantityChange(quantidade) { setQuantidade(quantidade); }
-    function handleButtonPress() {
+    async function handleButtonPress() {
         const listItem = {id: new Date(), descricao, quantidade: parseInt(quantidade)};
         let savedItems = [];
         const response = await AsyncStorage.getItem('itens');
 
         if(response) savedItems = JSON.parse(response);
-        savedItems.push(listIten);
+        savedItems.push(listItem);
 
         await AsyncStorage.setItem('items', JSON.stringify(savedItems));
-        navigation.navigate('AppList', listIten);;
+        navigation.navigate('AppList', listItem);
+
         //console.log({id: new Date().getTime(), descricao, quantidade});
         //navigation.navigate('AppList');
     }
