@@ -3,21 +3,21 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
 export default function AppItem(props){
     return (
-        <View style={StyleSheet.container}>
-            <Text style={StyleSheet.textItem}>{props.item}</Text>
-            <View style={StyleSheet.buttonContainer}>
-                <TouchableOpacity style={StyleSheet.deleteButton}>
-                    <Text style={StyleSheet.buttonText}>X</Text>
+        <View style={styles.container}>
+            <Text style={styles.textItem}>{props.item}</Text>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.deleteButton}>
+                    <Text style={styles.buttonText}>X</Text>
                 </TouchableOpacity>
-                <TouchableOpacity syle={StyleSheet.editButton}>
-                    <Text style={style.buttonText}>Editar</Text>
+                <TouchableOpacity style={styles.editButton}>
+                    <Text style={styles.buttonText}>Editar</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         marginTop: 20,

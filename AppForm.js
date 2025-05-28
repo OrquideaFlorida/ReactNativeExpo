@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Database from './Database';
 
 export default function AppForm({ navigation }) {
     const [descricao, setDescricao] = useState('');
@@ -10,15 +11,19 @@ export default function AppForm({ navigation }) {
     function handleDescriptionChange(descricao) { setDescricao(descricao); }
     function handleQuantityChange(quantidade) { setQuantidade(quantidade); }
     async function handleButtonPress() {
-        const listItem = {id: new Date(), descricao, quantidade: parseInt(quantidade)};
-        let savedItems = [];
-        const response = await AsyncStorage.getItem('itens');
+        const listItem = {descricao, quantidade: parseInt(quantidade)};
+        Database.saveItem(listItem)
+        .then( response=> navigation.navigate("AppList,listItem"));
+        
+        // const listItem = {id: item, descricao, quantidade: parseInt(quantidade)};
+        // let savedItems = [];
+        // const response = await AsyncStorage.getItem('itens');
 
-        if(response) savedItems = JSON.parse(response);
-        savedItems.push(listItem);
+        // if(response) savedItems = JSON.parse(response);
+        // savedItems.push(listItem);
 
-        await AsyncStorage.setItem('items', JSON.stringify(savedItems));
-        navigation.navigate('AppList', listItem);
+        // await AsyncStorage.setItem('items', JSON.stringify(savedItems));
+        // navigation.navigate('AppList', listItem);
 
         //console.log({id: new Date().getTime(), descricao, quantidade});
         //navigation.navigate('AppList');
