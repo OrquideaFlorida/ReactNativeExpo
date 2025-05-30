@@ -1,15 +1,41 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import Database from './Database'
 
-export default function AppItem(props){
+export default function AppItem(props) {
+    async function handleEditPress() {
+        const item = await Database.getItem(props.id);
+        props.navigation.navigate("AppForm", item);
+    }
+
+    function handleDeletePress(){
+        return Alert.alert(
+            "Atençao",
+            "Você tem certeza que deseja excluir este item?",
+            [
+                {
+                text: "Não",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+                },
+                {text: "Sim", onPress: () => console.log(`${props.id} deleted`) }
+            ],
+            { cancelable: false }
+        );
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.textItem}>{props.item}</Text>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.deleteButton}>
+                <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={handleDeletePress}
+                >
                     <Text style={styles.buttonText}>X</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.editButton}>
+                <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={handleEditPress}>
                     <Text style={styles.buttonText}>Editar</Text>
                 </TouchableOpacity>
             </View>
@@ -51,10 +77,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         fontSize: 12,
-        elevation:10,
+        elevation: 10,
         shadowOpacity: 10,
         shadowColor: '#ccc',
-        alignItems: 'center' 
+        alignItems: 'center'
     },
     buttonText: {
         color: '#fff',

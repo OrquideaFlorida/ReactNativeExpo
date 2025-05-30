@@ -1,12 +1,12 @@
 import {StatusBar} from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import AppItem from './AppItem'
 import Database from './Database'
 
 export default function AppList({route, navigation}) {
     //Entre o function e o return, adicionar os componentes que precisar
-    const [items, setItems] = useState([
+    const [items, setItems] = useState([]);
     //REMOVER OS ITENS ADICIONADOS MANUALMENTE PARA O APP TER DADOS PARA EXIBIR
         // {id: 1, quantidade: 5, descricao: 'arroz'},
         // {id: 2, quantidade: 1, descricao: 'feijão'},
@@ -14,7 +14,7 @@ export default function AppList({route, navigation}) {
         // {id: 4, quantidade: 1, descricao: 'massa'},
         // {id: 5, quantidade: 1, descricao: 'katchup'},
         // {id: 6, quantidade: 1, descricao: 'queijo-ralado'}
-    ]);
+    
 
     useEffect(() => {
         Database.getItems().then(items => setItems(items));
@@ -28,7 +28,7 @@ export default function AppList({route, navigation}) {
             style={styles.scrollContainer}
             contentContainerStyle={styles.itemsContainer}>
             {items.map(item => {
-                return <AppItem key={item.id} id={item.id} item={item.quantidade + ' de ' + item.descricao} />
+                return <AppItem key={item.id} id={item.id} item={item.quantidade + ' de ' + item.descricao} navigation={navigation} />
             }) }
         </ScrollView>
         </View>
