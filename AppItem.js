@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert, Platform } from 'react-native';
 import Database from './Database'
+import { Feather as Icon } from '@expo/vector-icons';
 
 export default function AppItem(props) {
     async function handleEditPress() {
@@ -8,35 +9,53 @@ export default function AppItem(props) {
         props.navigation.navigate("AppForm", item);
     }
 
-    function handleDeletePress(){
-        return Alert.alert(
+    function handleDeletePress() {
+        
+        const SO = Platform.SO;
+        if(SO == 'android' || SO == 'ios'){
+            // O usuário está usando Android ou IOs
+        
+        Alert.alert(
             "Atençao",
             "Você tem certeza que deseja excluir este item?",
             [
                 {
-                text: "Não",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel"
+                    text: "Não",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
                 },
-                {text: "Sim", onPress: () => console.log(`${props.id} deleted`) }
+                { 
+                    text: "Sim", onPress: () => {
+                        Database.deleteItem(props.id)
+                            .then(response => props.navigation.navigate("AppList", { id: props.id}));
+                    }
+                }
             ],
             { cancelable: false }
-        );
+            );
+    
+    } else {
+     
+        // O usuário não está usando  IOS ou Android
+        if(window.confirm('Você tem certeza que deseja excluir este item?')){
+            Database.deleteItem(props.id)
+                .then(response => props.navigation.navigate('AppList', {id: props.id}));
+        } 
     }
+}
     return (
         <View style={styles.container}>
             <Text style={styles.textItem}>{props.item}</Text>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={styles.deleteButton}
-                    onPress={handleDeletePress}
-                >
-                    <Text style={styles.buttonText}>X</Text>
+                    onPress={handleDeletePress}>
+                    <Icon name="trash" color="white" size={18} />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.editButton}
                     onPress={handleEditPress}>
-                    <Text style={styles.buttonText}>Editar</Text>
+                    <Icon name="edit" color="white" size={18} />
                 </TouchableOpacity>
             </View>
         </View>

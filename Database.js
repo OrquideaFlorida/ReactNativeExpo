@@ -15,6 +15,13 @@ async function saveItem(listItem, id){
     return AsyncStorage.setItem('items', JSON.stringify(savedItems));
 }
 
+async function deleteItem(id){
+    let savedItems = await getItems();
+    const index = await savedItems.findIndex(item => item.id === id);
+    savedItems.splice(index, 1);
+    return AsyncStorage.setItem('items', JSON.stringify(savedItems));    
+}
+
 function getItems(){
     return AsyncStorage.getItem('items')
             .then(response => {
@@ -33,5 +40,6 @@ async function getItem(id){
 module.exports = {
     saveItem,
     getItems,
-    getItem
+    getItem,
+    deleteItem
 }

@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Database from './Database';
+import { Feather as Icon } from '@expo/vector-icons'
 
 export default function AppForm({ route, navigation }) {
     const id = route.params ? route.params.id : undefined;
@@ -51,7 +52,10 @@ export default function AppForm({ route, navigation }) {
                     keyboardType={'numeric'}
                     clearButtonMode='always' />
                 <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
-                    <Text style={styles.buttonText}>Salvar</Text>
+                    <view style={styles.buttonContaiter}>
+                        <Icon name="save" size={22} color="white" />
+                        <Text style={styles.buttonText}>Salvar</Text>
+                    </view>
                 </TouchableOpacity>
             </View>
             <StatusBar style="light" />
@@ -104,8 +108,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 20,
         shadowColor: '#ccc',
     },
+    buttonContaiter: {
+        flexDirection: "row"
+    },
     buttonText: {
+        marginLeft: 10,
+        fontSize: 18,
         color: '#fff',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     }
 });
